@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "703547812274",
+    "firebase_url": "https://fiszki-a76de.firebaseio.com",
+    "project_id": "fiszki-a76de",
+    "storage_bucket": "fiszki-a76de.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703547812274:android:b88d8bbbc6f2e4642d5cab",
+        "android_client_info": {
+          "package_name": "com.example.flutterprojects"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703547812274-a8oo2cupv2dimsqqio4pfrk94c19ef0e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCklwFf701l1uLNm9RB8aU20FQr0Feyd_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703547812274-a8oo2cupv2dimsqqio4pfrk94c19ef0e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
