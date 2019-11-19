@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/screens/authenticate/atuhenticate.dart';
-import 'package:flutterprojects/screens/home/home.dart';
+import 'package:flutterprojects/screens/authenticate/authenticate.dart';
+
 
 class Wrapper extends StatelessWidget {
   @override
