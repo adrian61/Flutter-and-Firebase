@@ -3,6 +3,10 @@ import 'package:flutterprojects/services/auth.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class Register extends StatefulWidget {
+  final Function toggleView;
+
+  Register({this.toggleView});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -12,6 +16,7 @@ class _RegisterState extends State<Register> {
 
   String _email = '';
   String _password = '';
+  String _error = '';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -22,6 +27,14 @@ class _RegisterState extends State<Register> {
         backgroundColor: Colors.blue[400],
         elevation: 0.0,
         title: Text('Register'),
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: Icon(Icons.person),
+              label: Text('Sign In'))
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -50,6 +63,8 @@ class _RegisterState extends State<Register> {
                   },
                   validator: Validators.compose([
                     Validators.required('Please enter password'),
+                    Validators.minLength(
+                        8, 'Password shortest than 8 not allowed'),
                     Validators.patternString(
                         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                         'Invalid Password')
@@ -65,8 +80,13 @@ class _RegisterState extends State<Register> {
                       color: Colors.green[400],
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          print(_email);
-                          print(_password);
+                          dynamic result = await _authService
+                              .registerWithEmailAndPassword(_email, _password);
+                          if (result == null) {
+                            setState(() {
+                              _error = 'please suplly a valid email or pasword';
+                            });
+                          }
                           //TODO not working. needs repair
                           SnackBar(content: Text('Processing Data'));
                         }
@@ -84,9 +104,14 @@ class _RegisterState extends State<Register> {
                           Text('Clear', style: TextStyle(color: Colors.white)),
                     )
                   ],
-                )
+                ),SizedBox(height: 12.0),
+                Text(
+                  _error,
+                  style: TextStyle(color: Colors.red, fontSize: 14.0),
+                ),
               ],
-            )),
+            ),
+        ),
       ),
     );
   }
