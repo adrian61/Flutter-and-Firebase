@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutterprojects/services/auth.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _authService = AuthService();
 
-  //text field state
   String _email = '';
   String _password = '';
   final _formKey = GlobalKey<FormState>();
@@ -22,7 +21,7 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
         elevation: 0.0,
-        title: Text('Sign in'),
+        title: Text('Register'),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -40,6 +39,7 @@ class _SignInState extends State<SignIn> {
                   },
                   validator: Validators.compose([
                     Validators.required('Please enter email'),
+                    Validators.email('Invalid email address'),
                   ]),
                 ),
                 TextFormField(
@@ -50,6 +50,9 @@ class _SignInState extends State<SignIn> {
                   },
                   validator: Validators.compose([
                     Validators.required('Please enter password'),
+                    Validators.patternString(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                        'Invalid Password')
                   ]),
                 ),
                 SizedBox(
@@ -68,7 +71,7 @@ class _SignInState extends State<SignIn> {
                           SnackBar(content: Text('Processing Data'));
                         }
                       },
-                      child: Text('Sign In',
+                      child: Text('Register',
                           style: TextStyle(color: Colors.white)),
                     ),
                     RaisedButton(
