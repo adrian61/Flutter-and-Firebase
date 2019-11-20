@@ -4,9 +4,16 @@ import 'package:flutterprojects/models/user.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User _userFromFirebaseUser(FirebaseUser user){
-    return user !=null ? User(uid: user.uid) : null;
+  User _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? User(uid: user.uid) : null;
   }
+
+  // auth change user stream
+  Stream<User> get user {
+    return _auth.onAuthStateChanged
+        .map((FirebaseUser user) => _userFromFirebaseUser(user));
+  }
+
   Future signInAnonymously() async {
     try {
       AuthResult result = await _auth.signInAnonymously();
@@ -22,8 +29,24 @@ class AuthService {
   Future signInEmail(Stream email, String password) async {}
 
   //TODO register with email & password
-  Future registerEmail() async {}
+  Future registerEmail(dynamic email, dynamic password) async {
+    try {
+      return await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    }
+    catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
 //TODO sign out
-  Future signOut() async {}
+  Future signOut() async {
+    try {
+      return await _auth.signOut();
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 }
