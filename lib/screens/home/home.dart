@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/screens/home/test_list.dart';
+import 'package:flutterprojects/models/translation.dart';
+import 'package:flutterprojects/screens/home/translation_list.dart';
 import 'package:flutterprojects/services/auth.dart';
 import 'package:flutterprojects/services/database.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +11,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
-      value: DatabaseService().testSnapshot,
+    return StreamProvider<List<Translation>>.value(
+      value: DatabaseService().translationSnapshot,
       child: Scaffold(
         backgroundColor: Colors.blue[50],
         appBar: AppBar(
@@ -27,7 +28,7 @@ class Home extends StatelessWidget {
                 label: Text('logout'))
           ],
         ),
-        body: TestList(),
+        body: TranslationList(),
       ),
     );
   }
