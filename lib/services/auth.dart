@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterprojects/models/user.dart';
+import 'package:flutterprojects/services/database.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,7 +31,8 @@ class AuthService {
   //TODO sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      AuthResult result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       FirebaseUser user = result.user;
       return user;
     } catch (error) {
@@ -43,6 +47,14 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+      var translationMap = new LinkedHashMap<String, String>();
+      translationMap.putIfAbsent('dog', () => 'pies');
+      translationMap.putIfAbsent('cat', () => 'kot');
+      List counter = List();
+      counter.add(0);
+      counter.add(0);
+      await DatabaseService(uid: user.uid)
+          .updateUserData('new',translationMap,counter);
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

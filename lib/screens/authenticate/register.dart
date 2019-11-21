@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/services/auth.dart';
+import 'package:flutterprojects/shared/loading.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 
 class Register extends StatefulWidget {
@@ -17,11 +18,12 @@ class _RegisterState extends State<Register> {
   String _email = '';
   String _password = '';
   String _error = '';
+  bool _loading = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? Loading() : Scaffold(
       backgroundColor: Colors.blue[100],
       appBar: AppBar(
         backgroundColor: Colors.blue[400],
@@ -80,15 +82,15 @@ class _RegisterState extends State<Register> {
                       color: Colors.green[400],
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
+                          _loading= true;
                           dynamic result = await _authService
                               .registerWithEmailAndPassword(_email, _password);
                           if (result == null) {
                             setState(() {
+                              _loading = false;
                               _error = 'please suplly a valid email or pasword';
                             });
                           }
-                          //TODO not working. needs repair
-                          SnackBar(content: Text('Processing Data'));
                         }
                       },
                       child: Text('Register',
